@@ -15,8 +15,9 @@ Five machine learning classification algorithms are implemented and compared usi
 
 ## 2. Project Links
 
-- **GitHub Repository:** (hhttps://github.com/sureshdarisa/online-shopping-purchase-prediction)
-- **Live Streamlit Application:** (hhttps://online-shopping-purchase-prediction-gugbhpuym5fjqwl9kvcwdb.streamlit.app/)
+- **GitHub Repository:** https://github.com/sureshdarisa/online-shopping-purchase-prediction
+
+- **Live Streamlit Application:** https://online-shopping-purchase-prediction-gugbhpuym5fjqwl9kvcwdb.streamlit.app/
 
 ## 3. Dataset Description
 
