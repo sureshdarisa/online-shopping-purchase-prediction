@@ -16,6 +16,17 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
+import sys
+import sklearn
+import joblib
+import streamlit as st
+
+st.sidebar.subheader("Environment Information")
+
+st.sidebar.write("Python:", sys.version)
+st.sidebar.write("Scikit-learn:", sklearn.__version__)
+st.sidebar.write("Joblib:", joblib.__version__)
+
 # ---------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------
