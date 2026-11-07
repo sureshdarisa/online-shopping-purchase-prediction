@@ -18,13 +18,17 @@ from sklearn.metrics import (
 
 import sys
 import sklearn
+import numpy
+import pandas
 import joblib
 import streamlit as st
 
-st.sidebar.subheader("Environment Information")
+st.sidebar.subheader("Deployment Environment")
 
 st.sidebar.write("Python:", sys.version)
 st.sidebar.write("Scikit-learn:", sklearn.__version__)
+st.sidebar.write("NumPy:", numpy.__version__)
+st.sidebar.write("Pandas:", pandas.__version__)
 st.sidebar.write("Joblib:", joblib.__version__)
 
 # ---------------------------------------------------------------------
