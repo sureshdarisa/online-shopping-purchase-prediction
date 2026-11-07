@@ -1,157 +1,282 @@
-# E-commerce Customer Purchase Intention Prediction
+# E-commerce Customer Purchase Intention Prediction Using Machine Learning
 
-## 1. Project overview
+## 1. Project Overview
 
-This project applies machine learning classification algorithms to predict whether an online shopping session results in a purchase.
+The objective of this project is to develop and evaluate machine learning classification models to predict whether an online shopping session will result in a purchase.
 
-**Target:** `Revenue`
-- `True` / `1`: the session resulted in a purchase.
-- `False` / `0`: the session did not result in a purchase.
+The project uses the **Online Shoppers Purchasing Intention Dataset** from the UCI Machine Learning Repository.
 
-The project compares five classification algorithms and includes tuned versions of Logistic Regression and Decision Tree. A Streamlit application loads the saved model pipelines and evaluates them on an uploaded labelled CSV file. The application does not retrain models.
+The target variable, `Revenue`, indicates whether a visitor completed a purchase during a browsing session:
 
-## 2. Dataset
+- `True` – Purchase completed.
+- `False` – No purchase completed.
 
-**Dataset:** [Online Shoppers Purchasing Intention Dataset — UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset)
+Five machine learning classification algorithms are implemented and compared using multiple evaluation metrics.
 
-- 12,330 original sessions.
-- 17 input features and one binary target.
-- 125 exact duplicate rows were removed, leaving 12,205 rows.
-- The cleaned target distribution is imbalanced: 10,297 non-purchase sessions and 1,908 purchase sessions.
+## 2. Project Links
 
-The 17 input features are:
+- **GitHub Repository:** [View Source Code](hhttps://github.com/sureshdarisa/online-shopping-purchase-prediction)
+- **Live Streamlit Application:** [Open Streamlit App](hhttps://online-shopping-purchase-prediction-gugbhpuym5fjqwl9kvcwdb.streamlit.app/)
 
-`Administrative`, `Administrative_Duration`, `Informational`, `Informational_Duration`, `ProductRelated`, `ProductRelated_Duration`, `BounceRates`, `ExitRates`, `PageValues`, `SpecialDay`, `Month`, `OperatingSystems`, `Browser`, `Region`, `TrafficType`, `VisitorType`, and `Weekend`.
+## 3. Dataset Description
 
-## 3. Methodology
+**Dataset:** Online Shoppers Purchasing Intention Dataset
 
-1. Loaded the dataset and examined its dimensions, data types, missing values and target distribution.
-2. Removed exact duplicate records.
-3. Performed exploratory data analysis, including target distribution, feature distributions and relationships with the target.
-4. Split the cleaned dataset into training and test sets using an 80:20 stratified split (`random_state=42`).
-5. Used a preprocessing pipeline:
-   - `StandardScaler` for numerical features.
-   - `OneHotEncoder(handle_unknown="ignore")` for nominal categorical features.
-   - Passthrough for the binary `Weekend` feature.
-6. Trained five classifiers using the same training and test split.
-7. Evaluated the models using Accuracy, ROC-AUC, Precision, Recall, F1-score and Matthews Correlation Coefficient (MCC).
-8. Tuned Decision Tree and Logistic Regression using stratified cross-validation, optimising F1-score.
-9. Saved complete preprocessing-and-model pipelines as Joblib files.
-10. Built a Streamlit application to load and evaluate the saved models on an uploaded labelled test CSV.
+**Source:** UCI Machine Learning Repository
 
-## 4. Baseline model comparison
+**Dataset URL:** https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
 
-| Model | Accuracy | AUC | Precision | Recall | F1 | MCC |
+| Description | Details |
+|---|---|
+| Original records | 12,330 |
+| Records after duplicate removal | 12,205 |
+| Input features | 17 |
+| Target variable | Revenue |
+| Problem type | Binary Classification |
+| Missing values | None identified |
+
+### Features
+
+The dataset contains information about visitors' browsing behaviour and shopping sessions.
+
+Some important features include:
+
+- Administrative and Administrative_Duration
+- Informational and Informational_Duration
+- ProductRelated and ProductRelated_Duration
+- BounceRates and ExitRates
+- PageValues
+- SpecialDay
+- Month
+- OperatingSystems
+- Browser
+- Region
+- TrafficType
+- VisitorType
+- Weekend
+
+### Data Preprocessing
+
+The following preprocessing activities were performed:
+
+1. Inspected the dataset for missing values.
+2. Identified and removed 125 duplicate records.
+3. Separated the independent variables and target variable.
+4. Converted categorical variables using One-Hot Encoding.
+5. Applied StandardScaler to numerical features.
+6. Used a stratified 80:20 train-test split.
+
+The cleaned dataset contains 12,205 records.
+
+The target distribution is:
+
+| Revenue | Number of records | Percentage |
+|---|---:|---:|
+| False (No Purchase) | 10,297 | 84.37% |
+| True (Purchase) | 1,908 | 15.63% |
+
+The dataset is imbalanced, with non-purchase sessions representing the majority class.
+
+## 4. Machine Learning Models
+
+The following five classification algorithms were implemented:
+
+1. Logistic Regression
+2. Decision Tree
+3. K-Nearest Neighbors (KNN)
+4. Gaussian Naive Bayes
+5. Support Vector Machine (SVM)
+
+All five models were trained and evaluated using the same training and testing datasets.
+
+### Evaluation Metrics
+
+The following metrics were used:
+
+- **Accuracy:** Measures the proportion of correctly classified observations.
+- **AUC:** Measures the model's ability to distinguish between the two classes.
+- **Precision:** Measures how many predicted purchases were actual purchases.
+- **Recall:** Measures how many actual purchases were correctly identified.
+- **F1-score:** Harmonic mean of Precision and Recall.
+- **MCC:** Matthews Correlation Coefficient, which considers all four confusion-matrix outcomes.
+
+## 5. Model Performance Comparison
+
+The following table presents the evaluation results obtained from the test dataset.
+
+| Model | Accuracy | AUC | Precision | Recall | F1-score | MCC |
 |---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | 0.8873 | 0.8998 | 0.7536 | 0.4162 | 0.5363 | 0.5055 |
-| Decision Tree | 0.8914 | 0.8808 | 0.6667 | 0.6126 | 0.6385 | 0.5754 |
+| Logistic Regression | 0.8873 | **0.8998** | **0.7536** | 0.4162 | 0.5363 | 0.5055 |
+| Decision Tree | 0.8914 | 0.8808 | 0.6667 | **0.6126** | **0.6385** | **0.5754** |
 | KNN | 0.8742 | 0.8002 | 0.6682 | 0.3901 | 0.4926 | 0.4465 |
 | Gaussian Naive Bayes | 0.2773 | 0.7508 | 0.1756 | 0.9791 | 0.2978 | 0.1375 |
-| SVM | 0.8955 | 0.8738 | 0.7378 | 0.5157 | 0.6071 | 0.5607 |
+| SVM | **0.8955** | 0.8738 | 0.7378 | 0.5157 | 0.6071 | 0.5607 |
 
-## 5. Tuned model results
+**Note:** Bold values indicate the highest score for each evaluation metric.
+
+## 6. Observations
+
+### Logistic Regression
+
+- Achieved an accuracy of 88.73%.
+- Obtained the highest AUC of 0.8998.
+- Achieved the highest precision of 0.7536.
+- Recall was relatively low at 0.4162.
+
+**Observation:** Logistic Regression demonstrated strong class discrimination and precision, but it missed a considerable proportion of actual purchase sessions.
+
+### Decision Tree
+
+- Achieved an accuracy of 89.14%.
+- Obtained the highest recall of 0.6126.
+- Achieved the highest F1-score of 0.6385.
+- Obtained the highest MCC of 0.5754.
+
+**Observation:** Decision Tree provided the best balance between precision and recall. It was the strongest baseline model based on F1-score and MCC.
+
+### K-Nearest Neighbors (KNN)
+
+- Achieved an accuracy of 87.42%.
+- Obtained an AUC of 0.8002.
+- Recall was 0.3901.
+
+**Observation:** KNN achieved reasonable accuracy but comparatively weaker purchase detection and class discrimination than the other models.
+
+### Gaussian Naive Bayes
+
+- Achieved an accuracy of 27.73%.
+- Obtained a very high recall of 0.9791.
+- Precision was only 0.1756.
+
+**Observation:** Gaussian Naive Bayes identified almost all actual purchase sessions but incorrectly classified many non-purchase sessions as purchases, resulting in poor overall performance.
+
+### Support Vector Machine (SVM)
+
+- Achieved the highest accuracy of 89.55%.
+- Obtained a precision of 0.7378.
+- Recall was 0.5157.
+- F1-score was 0.6071.
+
+**Observation:** SVM demonstrated strong overall accuracy and a good balance between precision and recall, although its recall was lower than that of Decision Tree.
+
+## 7. Additional Hyperparameter Tuning Experiments
+
+Hyperparameter tuning was also performed for Decision Tree and Logistic Regression using GridSearchCV.
+
+The objective was to improve model performance, particularly the F1-score, while considering the imbalance in the target variable.
 
 ### Tuned Decision Tree
 
 Best parameters:
-- Criterion: `gini`
-- Maximum depth: `4`
-- Minimum samples per leaf: `10`
-- Minimum samples split: `2`
-- Class weight: `None`
 
-Best cross-validation F1-score: `0.6441`
+- Criterion: Gini
+- Maximum depth: 4
+- Minimum samples per leaf: 10
+- Minimum samples split: 2
 
-| Metric | Test score |
+Test performance:
+
+| Metric | Score |
 |---|---:|
 | Accuracy | 0.9021 |
 | AUC | 0.9237 |
 | Precision | 0.7581 |
 | Recall | 0.5497 |
-| F1 | 0.6373 |
+| F1-score | 0.6373 |
 | MCC | 0.5924 |
 
 ### Tuned Logistic Regression
 
 Best parameters:
-- C: `0.1`
-- Class weight: `balanced`
-- Penalty: `l1`
-- Solver: `liblinear`
 
-Best cross-validation F1-score: `0.6209`
+- C: 0.1
+- Class weight: Balanced
+- Penalty: L1
+- Solver: liblinear
 
-| Metric | Test score |
+Test performance:
+
+| Metric | Score |
 |---|---:|
 | Accuracy | 0.8529 |
 | AUC | 0.9134 |
 | Precision | 0.5193 |
 | Recall | 0.8089 |
-| F1 | 0.6325 |
+| F1-score | 0.6325 |
 | MCC | 0.5670 |
 
-## 6. Observations and conclusion
+The tuned Logistic Regression model achieved considerably higher recall, identifying more actual purchasing customers, while the tuned Decision Tree achieved stronger accuracy, AUC and MCC.
 
-- The dataset is imbalanced, so accuracy alone is not sufficient to compare classifiers. F1-score, recall, AUC and MCC provide additional insight.
-- The baseline Decision Tree achieved the highest baseline F1-score (0.6385).
-- The tuned Decision Tree achieved the strongest overall combination among the evaluated models, with test accuracy 0.9021, AUC 0.9237 and MCC 0.5924.
-- Tuned Logistic Regression achieved higher purchase recall (0.8089), meaning it detected more actual purchase sessions, but its precision was lower (0.5193), resulting in more false-positive purchase predictions.
-- Gaussian Naive Bayes achieved very high purchase recall but generated many false positives at the default classification threshold.
-- `PageValues` was strongly associated with the target. A sensitivity experiment without this feature showed a substantial decline in performance. Its usefulness depends on when a prediction is intended to be made: it may not be available for an early-session prediction. This is a potential deployment limitation, not proof of data leakage.
+## 8. Overall Conclusion
 
-**Overall conclusion:** The tuned Decision Tree is the preferred general-purpose model based on the test results and MCC. Tuned Logistic Regression may be preferred in a use case where identifying as many potential purchasers as possible is more important than limiting false positives.
+Based on the experimental results:
 
-## 7. Streamlit application
+1. Decision Tree achieved the highest F1-score and MCC among the five baseline models.
+2. Logistic Regression achieved the highest AUC and precision.
+3. SVM achieved the highest accuracy.
+4. KNN showed comparatively weaker classification performance.
+5. Gaussian Naive Bayes achieved very high recall but suffered from a large number of false-positive predictions.
 
-The application:
-- Loads saved Joblib pipelines from the `models/` folder.
-- Accepts a labelled CSV containing the 17 features and `Revenue`.
-- Allows the user to select one of the seven saved models.
-- Displays Accuracy, AUC, Precision, Recall, F1-score and MCC.
-- Displays a confusion matrix and classification report.
-- Provides a downloadable CSV containing predictions.
+Since the dataset is imbalanced, accuracy alone is not sufficient to determine the best model.
 
-### Run locally
+Among the five baseline models, **Decision Tree is considered the most suitable model** based on its F1-score and MCC.
 
-1. Clone this repository.
-2. Create and activate a Python virtual environment.
-3. Install dependencies:
+The additional tuning experiments demonstrated that model performance can be further improved depending on the evaluation metric and business objective.
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 9. Streamlit Application
 
-4. Ensure all seven `.joblib` files are present in the `models/` directory.
-5. Start the app:
+A Streamlit application was developed to demonstrate the trained classification models.
 
-   ```bash
-   streamlit run app.py
-   ```
+The application supports:
 
-6. Upload `test_data.csv` and select a model.
+- Uploading a test CSV file containing the required input features and target variable.
+- Selecting one of the saved machine learning models.
+- Loading the saved model without retraining.
+- Evaluating the selected model on the uploaded dataset.
+- Displaying Accuracy, AUC, Precision, Recall, F1-score and MCC.
+- Displaying the confusion matrix and classification report.
 
-**Important:** Scikit-learn models saved with Joblib should be loaded with a compatible scikit-learn version. For reproducibility, use the same scikit-learn version that was used to train and save the models. Update `requirements.txt` to pin that exact version.
+**Live Application:** [Open Streamlit Application](https://REPLACE_WITH_YOUR_STREAMLIT_APP_URL)
 
-## 8. Repository structure
+## 10. Repository Structure
 
 ```text
 online-shopping-purchase-prediction/
+│
 ├── app.py
 ├── requirements.txt
 ├── README.md
-├── .gitignore
 ├── test_data.csv
-└── models/
-    ├── logistic_regression.joblib
-    ├── decision_tree.joblib
-    ├── knn.joblib
-    ├── gaussian_nb.joblib
-    ├── svm.joblib
-    ├── tuned_decision_tree.joblib
-    └── tuned_logistic_regression.joblib
+│
+├── models/
+│   ├── logistic_regression.joblib
+│   ├── decision_tree.joblib
+│   ├── knn.joblib
+│   ├── gaussian_nb.joblib
+│   ├── svm.joblib
+│   ├── tuned_decision_tree.joblib
+│   └── tuned_logistic_regression.joblib
+│
+├── notebooks/
+│   └── online_shoppers_analysis.ipynb
+│
+└── screenshots/
+    └── streamlit_app.png
 ```
 
-## 9. Author and repository
+## 11. Technologies Used
 
-- **Author:** Add your name here.
-- **GitHub repository:** Add your repository URL here.
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
+- Seaborn
+- Joblib
+- Streamlit
+
+---
+
+**Project:** E-commerce Customer Purchase Intention Prediction Using Machine Learning Classification Algorithms
+
+**Dataset Source:** UCI Machine Learning Repository
