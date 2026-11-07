@@ -236,7 +236,7 @@ The application supports:
 - Displaying Accuracy, AUC, Precision, Recall, F1-score and MCC.
 - Displaying the confusion matrix and classification report.
 
-**Live Application:** [Open Streamlit Application](https://REPLACE_WITH_YOUR_STREAMLIT_APP_URL)
+**Live Application:** [Open Streamlit Application](https://online-shopping-purchase-prediction-gugbhpuym5fjqwl9kvcwdb.streamlit.app/)
 
 ## 10. Repository Structure
 
